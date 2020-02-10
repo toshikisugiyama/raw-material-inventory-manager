@@ -2,13 +2,14 @@ import firebase from 'firebase'
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: "AIzaSyAmz2a3BtlzI7rMefXvFyhI4-2kv-Sq9UQ",
-    authDomain: "vue-firebase-todo-app-e4fab.firebaseapp.com",
-    databaseURL: "https://vue-firebase-todo-app-e4fab.firebaseio.com",
-    projectId: "vue-firebase-todo-app-e4fab",
-    storageBucket: "vue-firebase-todo-app-e4fab.appspot.com",
-    messagingSenderId: "274899368546",
-    appId: "1:274899368546:web:20d098ef9bb40ebc3b2f3b"
+    apiKey: 'AIzaSyA-8NRWz7i_XrKXR4xfEy-K5-I5KJo8cqo',
+    authDomain: 'rm-inventory-manager.firebaseapp.com',
+    databaseURL: 'https://rm-inventory-manager.firebaseio.com',
+    projectId: 'rm-inventory-manager',
+    storageBucket: 'rm-inventory-manager.appspot.com',
+    messagingSenderId: '415693554613',
+    appId: '1:415693554613:web:44befd1b2dfb7c240d8ffc',
+    measurementId: 'G-7514JQ6Y07'
   })
 }
 
