@@ -1,6 +1,6 @@
 <template>
-  <v-row tabindex="section" class="login">
-    <v-col v-text="this.$route.name.toUpperCase()" tag="h1" cols="12" class="text-center"/>
+  <v-row tag="section" class="login">
+    <v-col v-text="this.$route.name.toUpperCase()" tag="h1" cols="12" class="text-center" />
     <v-col cols="12" md="4" offset-md="4">
       <v-form>
         <v-text-field
