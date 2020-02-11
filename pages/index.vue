@@ -58,7 +58,7 @@ export default {
       const currentPath = this.$route.path.replace(/\/$/, '')
       this.$router.push(`${currentPath}/materials/${path}`)
     }
-  }
-  // middleware: 'authenticated'
+  },
+  middleware: 'authenticated'
 }
 </script>

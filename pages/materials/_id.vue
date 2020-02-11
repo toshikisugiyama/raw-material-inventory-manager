@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-row>
+  <v-container class="pa-0">
+    <v-row tag="section">
       <v-col
         v-text="getItem(materials, materialId).controlCode"
         tag="span"
@@ -69,7 +69,7 @@ export default {
     filterItem (array, materialId) {
       return array.filter(item => item.materialId === materialId)
     }
-  }
-  // middleware: 'authenticated'
+  },
+  middleware: 'authenticated'
 }
 </script>
