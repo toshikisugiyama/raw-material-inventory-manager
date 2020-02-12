@@ -29,7 +29,7 @@
               class="body-1 py-0 my-1"
             />
             <v-col
-              v-text="inventory.stockQuantity + getItem(materials, inventory.materialId).unit"
+              v-text="inventory.stockAmount + getItem(materials, inventory.materialId).unit"
               tag="h3"
               cols="12"
               class="headline font-weight-bold py-0 my-1 text-right"
