@@ -1,6 +1,16 @@
 export const strict = false
 export const state = () => ({
   user: null,
+  pages: [
+    {
+      name: '原材料在庫一覧',
+      path: '/'
+    },
+    {
+      name: '原材料一覧',
+      path: '/materials'
+    }
+  ],
   inventories: [
     {
       id: 1,
@@ -54,6 +64,7 @@ export const actions = {
 
 export const getters = {
   getUser: state => state.user,
+  getPages: state => state.pages,
   getInventories: state => state.inventories,
   getMaterials: state => state.materials
 }
