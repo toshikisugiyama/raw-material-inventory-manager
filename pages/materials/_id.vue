@@ -19,7 +19,7 @@
     </v-row>
     <v-row tag="section" class="material">
       <v-col v-for="inventory in filterItem(inventories, materialId)" :key="inventory.id" cols="12">
-        <v-card>
+        <v-card @click="toInventory(inventory.id)">
           <v-container>
             <v-row>
               <v-col
@@ -35,7 +35,7 @@
                 class="body-1 py-0 my-1"
               />
               <v-col
-                v-text="inventory.stockQuantity + getItem(materials, materialId).unit"
+                v-text="inventory.stockAmount + getItem(materials, materialId).unit"
                 tag="h2"
                 cols="12"
                 class="headline font-weight-bold py-0 my-1 text-right"
@@ -63,13 +63,16 @@ export default {
     })
   },
   methods: {
+    toInventory (path) {
+      this.$router.push(`/${path}`)
+    },
     getItem (array, id) {
       return array.find(item => item.id === id)
     },
     filterItem (array, materialId) {
       return array.filter(item => item.materialId === materialId)
     }
-  },
-  middleware: 'authenticated'
+  }
+  // middleware: 'authenticated'
 }
 </script>
