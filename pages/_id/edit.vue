@@ -55,6 +55,8 @@
           <v-btn
             @click="submit"
             :disabled="!usedAmount || stockAmount < 0"
+            depressed
+            large
           >
             決定
           </v-btn>
@@ -69,7 +71,7 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      inventoryId: Number(this.$route.path.slice(1).replace(/\/$/, '')),
+      inventoryId: Number(this.$route.path.slice(1, 2).replace(/\/$/, '')),
       usedAmount: ''
     }
   },

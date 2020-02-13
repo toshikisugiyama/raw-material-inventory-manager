@@ -53,7 +53,7 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      materialId: Number(this.$route.path.slice(11).replace(/\/$/, ''))
+      materialId: Number(this.$route.path.slice(1).replace(/\/$/, ''))
     }
   },
   computed: {
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     toInventory (path) {
-      this.$router.push(`/${path}`)
+      this.$router.push(`/${path}/edit`)
     },
     getItem (array, id) {
       return array.find(item => item.id === id)
