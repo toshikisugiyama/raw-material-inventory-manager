@@ -55,6 +55,8 @@
           <v-btn
             @click="submit"
             :disabled="!usedAmount || stockAmount < 0"
+            depressed
+            large
           >
             決定
           </v-btn>

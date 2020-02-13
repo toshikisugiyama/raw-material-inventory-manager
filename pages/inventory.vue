@@ -3,6 +3,7 @@
     <v-row>
       <v-col v-for="item in items" :key="item.label" cols="12">
         <v-text-field
+          v-model="item.value"
           :label="item.label"
           :type="item.type"
         />
@@ -22,26 +23,32 @@ export default {
     return {
       items: [
         {
+          value: '',
           label: '社内コード',
           type: 'text'
         },
         {
+          value: '',
           label: '品名',
           type: 'text'
         },
         {
+          value: '',
           label: '製造者もしくは仕入先',
           type: 'text'
         },
         {
+          value: '',
           label: '仕入量',
           type: 'text'
         },
         {
+          value: '',
           label: '使用期限',
           type: 'text'
         },
         {
+          value: '',
           label: '備考',
           type: 'text'
         }
