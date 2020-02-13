@@ -3,12 +3,16 @@ export const state = () => ({
   user: null,
   pages: [
     {
-      name: '原材料在庫一覧',
+      name: '原材料一覧',
       path: '/'
     },
     {
-      name: '原材料一覧',
-      path: '/materials'
+      name: '原材料受入',
+      path: '/inventory'
+    },
+    {
+      name: '原材料登録',
+      path: '/material'
     }
   ],
   inventories: [

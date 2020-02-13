@@ -69,7 +69,7 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      inventoryId: Number(this.$route.path.slice(1).replace(/\/$/, '')),
+      inventoryId: Number(this.$route.path.slice(1, 2).replace(/\/$/, '')),
       usedAmount: ''
     }
   },

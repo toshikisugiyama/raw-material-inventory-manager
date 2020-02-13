@@ -75,10 +75,10 @@ export default {
       if (foundPage) {
         return foundPage.name
       }
-      if (this.$route.path.includes('materials')) {
-        return '原材料詳細'
+      if (this.$route.path.includes('edit')) {
+        return '原材料使用'
       }
-      return '原材料使用'
+      return '原材料詳細'
     }
   },
   methods: {
