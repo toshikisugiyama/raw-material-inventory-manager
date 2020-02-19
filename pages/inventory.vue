@@ -56,6 +56,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import firebase from '@/plugins/firebase'
 export default {
   data () {
     return {
@@ -93,7 +94,11 @@ export default {
         updatedAt: this.updatedAt
       }
       this.setInventories(inventories)
+      this.writeInventoryData(inventories)
       this.$router.push('/')
+    },
+    writeInventoryData (inventories) {
+      firebase.database().ref('inventories/' + inventories.lotCode).set(inventories)
     },
     ...mapActions(['setInventories'])
   }

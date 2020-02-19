@@ -42,18 +42,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-// import firebase from '@/plugins/firebase'
+import firebase from '@/plugins/firebase'
 export default {
   data () {
     return {
-      noMaterial: '登録された原料はありません。'
+      noMaterial: '登録された原料はありません。',
+      materials: []
     }
   },
-  computed: {
-    ...mapGetters({
-      materials: 'getMaterials'
-    })
+  created () {
+    return firebase
+      .database()
+      .ref('/materials/')
+      .once('value')
+      .then((snapshot) => {
+        if (snapshot.val()) {
+          Object.keys(snapshot.val()).forEach((element) => {
+            this.materials.push(snapshot.val()[element])
+          })
+        }
+      })
   },
   methods: {
     toMaterialItem (controlCode) {
