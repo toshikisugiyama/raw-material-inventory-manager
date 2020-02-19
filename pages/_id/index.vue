@@ -77,6 +77,19 @@ export default {
       return currentInventories
     }
   },
+  // created () {
+  //   return firebase
+  //     .database()
+  //     .ref('/materials/')
+  //     .once('value')
+  //     .then((snapshot) => {
+  //       if (snapshot.val()) {
+  //         Object.keys(snapshot.val()).forEach((element) => {
+  //           this.materials.push(snapshot.val()[element])
+  //         })
+  //       }
+  //     })
+  // },
   methods: {
     toInventoryEditor (lotCode) {
       this.$router.push(`/${lotCode}/edit`)

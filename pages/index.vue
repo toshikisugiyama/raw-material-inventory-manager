@@ -1,6 +1,6 @@
 <template>
   <v-row tag="section" class="material">
-    <template v-if="materials.length !== 0">
+    <template v-if="!!materials.length">
       <v-col
         v-for="material in materials"
         :key="material.controlCode"
@@ -36,6 +36,7 @@
       <v-col
         v-text="noMaterial"
         cols="12"
+        tag="h1"
       />
     </template>
   </v-row>
@@ -43,14 +44,20 @@
 
 <script>
 import firebase from '@/plugins/firebase'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      noMaterial: '登録された原料はありません。',
-      materials: []
+      noMaterial: '登録された原料はありません。'
     }
   },
+  computed: {
+    ...mapGetters({
+      materials: 'getMaterials'
+    })
+  },
   created () {
+    const materials = []
     return firebase
       .database()
       .ref('/materials/')
@@ -58,12 +65,16 @@ export default {
       .then((snapshot) => {
         if (snapshot.val()) {
           Object.keys(snapshot.val()).forEach((element) => {
-            this.materials.push(snapshot.val()[element])
+            materials.push(snapshot.val()[element])
           })
         }
       })
+      .then(() => {
+        this.setMaterials(materials)
+      })
   },
   methods: {
+    ...mapActions(['setMaterials']),
     toMaterialItem (controlCode) {
       this.$router.push('/' + controlCode)
     }

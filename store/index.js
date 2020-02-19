@@ -34,6 +34,9 @@ export const mutations = {
     state.inventories.push(payload)
   },
   setMaterials (state, payload) {
+    state.materials = payload
+  },
+  addMaterials (state, payload) {
     state.materials.push(payload)
   }
 }
@@ -45,8 +48,10 @@ export const actions = {
   setInventories ({ commit }, payload) {
     commit('setInventories', payload)
   },
-
   setMaterials ({ commit }, payload) {
     commit('setMaterials', payload)
+  },
+  addMaterials ({ commit }, payload) {
+    commit('addMaterials', payload)
   }
 }
