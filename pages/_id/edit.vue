@@ -2,24 +2,24 @@
   <v-container class="pa-0">
     <v-row tag="section">
       <v-col
-        v-text="getItem(materials, getItem(inventories, inventoryId).materialId).controlCode"
+        v-text="currentMaterial.controlCode"
         tag="span"
         cols="12"
       />
       <v-col
-        v-text="getItem(materials, getItem(inventories, inventoryId).materialId).name"
+        v-text="currentMaterial.name"
         tag="h1"
         cols="12"
       />
       <v-col
-        v-text="getItem(materials, getItem(inventories, inventoryId).materialId).supplier"
+        v-text="currentMaterial.supplier"
         tag="span"
         cols="12"
       />
     </v-row>
     <v-row tag="section" class="material">
       <v-col
-        v-text="getItem(inventories, inventoryId).lotCode"
+        v-text="currentInventory.lotCode"
         tag="h1"
         cols="12"
         class="headline font-weight-bold py-0 my-1"
@@ -30,7 +30,7 @@
             <v-col cols="12">
               <v-text-field
                 v-model="usedAmount"
-                :append-outer-icon="getItem(materials, getItem(inventories, inventoryId).materialId).unit"
+                :append-outer-icon="currentMaterial.unit"
                 type="number"
                 label="使用量"
                 required
@@ -43,7 +43,7 @@
             <v-col cols="12">
               <v-text-field
                 :value="stockAmount"
-                :append-outer-icon="getItem(materials, getItem(inventories, inventoryId).materialId).unit"
+                :append-outer-icon="currentMaterial.unit"
                 type="number"
                 label="在庫"
                 readonly
@@ -71,7 +71,6 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      inventoryId: Number(this.$route.path.slice(1, 2).replace(/\/$/, '')),
       usedAmount: ''
     }
   },
@@ -80,17 +79,19 @@ export default {
       inventories: 'getInventories',
       materials: 'getMaterials'
     }),
+    currentMaterial () {
+      const currentMaterial = this.materials.find(item => item.controlCode === this.currentInventory.materialControlCode)
+      return currentMaterial
+    },
+    currentInventory () {
+      const currentInventory = this.inventories.find(item => item.lotCode === this.$route.params.id)
+      return currentInventory
+    },
     stockAmount () {
-      return this.getItem(this.inventories, this.inventoryId).stockAmount - this.usedAmount
+      return this.currentInventory.amount - this.usedAmount
     }
   },
   methods: {
-    getItem (array, id) {
-      return array.find(item => item.id === id)
-    },
-    filterItem (array, materialId) {
-      return array.filter(item => item.materialId === materialId)
-    },
     submit () {
       alert('使用量: ' + this.usedAmount + ', 在庫: ' + this.stockAmount)
     }
