@@ -1,6 +1,6 @@
 <template>
   <v-container class="pa-0">
-    <v-row tag="section">
+    <v-row v-if="!!currentMaterial" tag="section">
       <v-col
         v-text="currentMaterial.controlCode"
         tag="span"
@@ -18,7 +18,7 @@
       />
     </v-row>
     <v-row tag="section" class="inventories">
-      <template v-if="currentInventories.length > 0">
+      <template v-if="!!currentInventories.length">
         <v-col v-for="inventory in currentInventories" :key="inventory.id" cols="12">
           <v-card @click="toInventoryEditor(inventory.lotCode)">
             <v-container>
@@ -77,19 +77,11 @@ export default {
       return currentInventories
     }
   },
-  // created () {
-  //   return firebase
-  //     .database()
-  //     .ref('/materials/')
-  //     .once('value')
-  //     .then((snapshot) => {
-  //       if (snapshot.val()) {
-  //         Object.keys(snapshot.val()).forEach((element) => {
-  //           this.materials.push(snapshot.val()[element])
-  //         })
-  //       }
-  //     })
-  // },
+  created () {
+    if (!this.currentMaterial) {
+      this.$router.push('/')
+    }
+  },
   methods: {
     toInventoryEditor (lotCode) {
       this.$router.push(`/${lotCode}/edit`)

@@ -68,6 +68,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import firebase from '@/plugins/firebase'
 export default {
   data () {
     return {
@@ -91,8 +92,16 @@ export default {
       return this.currentInventory.amount - this.usedAmount
     }
   },
+  created () {
+    if (!this.currentMaterial || !this.currentInventory) {
+      this.$router.push('/')
+    }
+  },
   methods: {
     submit () {
+      firebase.database().ref('inventories/').child(this.$route.params.id).update({
+        'amount': this.stockAmount
+      })
       alert('使用量: ' + this.usedAmount + ', 在庫: ' + this.stockAmount)
     }
   }

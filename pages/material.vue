@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import firebase from '@/plugins/firebase'
 export default {
   data () {
@@ -75,14 +74,12 @@ export default {
         createdAt: this.createdAt,
         updatedAt: this.updatedAt
       }
-      this.setMaterials(materials)
       this.writeMaterialData(materials)
       this.$router.push('/')
     },
     writeMaterialData (materials) {
       firebase.database().ref('materials/' + materials.controlCode).set(materials)
-    },
-    ...mapActions(['setMaterials'])
+    }
   }
   // middleware: 'authenticated'
 }

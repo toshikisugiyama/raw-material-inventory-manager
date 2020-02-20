@@ -38,6 +38,7 @@
           v-text="noMaterial"
           cols="12"
           tag="h1"
+          class="text-center"
         />
       </template>
     </v-row>
@@ -59,26 +60,48 @@ export default {
     })
   },
   created () {
-    const materials = []
-    return firebase
-      .database()
-      .ref('/materials/')
-      .once('value')
-      .then((snapshot) => {
-        if (snapshot.val()) {
-          Object.keys(snapshot.val()).forEach((element) => {
-            materials.push(snapshot.val()[element])
-          })
-        }
-      })
-      .then(() => {
-        this.setMaterials(materials)
-      })
+    this.readMaterials().then(() => {
+      this.readInventories()
+    })
   },
   methods: {
-    ...mapActions(['setMaterials']),
+    ...mapActions(['setMaterials', 'setInventories']),
     toMaterialItem (controlCode) {
       this.$router.push('/' + controlCode)
+    },
+    readMaterials () {
+      const materials = []
+      return firebase
+        .database()
+        .ref('/materials/')
+        .once('value')
+        .then((snapshot) => {
+          if (snapshot.val()) {
+            Object.keys(snapshot.val()).forEach((element) => {
+              materials.push(snapshot.val()[element])
+            })
+          }
+        })
+        .then(() => {
+          this.setMaterials(materials)
+        })
+    },
+    readInventories () {
+      const inventories = []
+      return firebase
+        .database()
+        .ref('/inventories/')
+        .once('value')
+        .then((snapshot) => {
+          if (snapshot.val()) {
+            Object.keys(snapshot.val()).forEach((element) => {
+              inventories.push(snapshot.val()[element])
+            })
+          }
+        })
+        .then(() => {
+          this.setInventories(inventories)
+        })
     }
   }
   // middleware: 'authenticated'

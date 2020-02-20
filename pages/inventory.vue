@@ -6,12 +6,16 @@
           v-model="materialControlCode.value"
           :label="materialControlCode.label"
           :type="materialControlCode.type"
+          autofocus
         />
       </v-col>
-      <v-col
-        v-text="materialName ? materialName : '品名'"
-        cols="12"
-      />
+      <v-col :cols="name.col">
+        <v-text-field
+          :value="materialName"
+          :label="name.label"
+          readonly
+        />
+      </v-col>
       <v-col :cols="lotCode.col">
         <v-text-field
           v-model="lotCode.value"
@@ -67,7 +71,8 @@ export default {
       status: '',
       inventoryComment: { value: '', label: '備考', type: 'date', col: 12 },
       createdAt: Date.now(),
-      updatedAt: Date.now()
+      updatedAt: Date.now(),
+      name: { label: '品名', col: '12' }
     }
   },
   computed: {
@@ -81,6 +86,12 @@ export default {
     materialName () { return this.currentMaterial ? this.currentMaterial.name : '' },
     materialUnit () { return this.currentMaterial ? this.currentMaterial.unit : '' }
   },
+  created () {
+    if (!this.materials.length) {
+      alert('受入入力の前に原材料の登録を行って下さい。')
+      this.$router.push('/material')
+    }
+  },
   methods: {
     registerInventory () {
       const inventories = {
@@ -93,14 +104,14 @@ export default {
         createdAt: this.createdAt,
         updatedAt: this.updatedAt
       }
-      this.setInventories(inventories)
+      this.addInventories(inventories)
       this.writeInventoryData(inventories)
-      this.$router.push('/')
+      this.$router.push('/' + inventories.materialControlCode)
     },
     writeInventoryData (inventories) {
       firebase.database().ref('inventories/' + inventories.lotCode).set(inventories)
     },
-    ...mapActions(['setInventories'])
+    ...mapActions(['addInventories'])
   }
   // middleware: 'authenticated'
 }
