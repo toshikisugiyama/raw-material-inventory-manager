@@ -1,6 +1,6 @@
 <template>
   <v-container class="pa-0">
-    <v-row tag="section">
+    <v-row v-if="!!currentMaterial" tag="section">
       <v-col
         v-text="currentMaterial.controlCode"
         tag="span"
@@ -17,7 +17,7 @@
         cols="12"
       />
     </v-row>
-    <v-row tag="section" class="material">
+    <v-row v-if="!!currentInventory" tag="section" class="material">
       <v-col
         v-text="currentInventory.lotCode"
         tag="h1"
