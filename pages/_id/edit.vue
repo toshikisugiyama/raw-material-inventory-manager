@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import firebase from '@/plugins/firebase'
 export default {
   data () {
@@ -98,12 +98,27 @@ export default {
     }
   },
   methods: {
-    submit () {
+    async submit () {
       firebase.database().ref('inventories/').child(this.$route.params.id).update({
         'amount': this.stockAmount
       })
-      alert('使用量: ' + this.usedAmount + ', 在庫: ' + this.stockAmount)
-    }
+      await this.readInventories()
+      await this.$router.push('/' + this.currentMaterial.controlCode)
+    },
+    readInventories () {
+      const inventories = []
+      const inventoriesRef = firebase.database().ref('/inventories/')
+      return inventoriesRef.once('value').then((snapshot) => {
+        if (snapshot.val()) {
+          Object.keys(snapshot.val()).forEach((element) => {
+            inventories.push(snapshot.val()[element])
+          })
+        }
+      }).then(() => {
+        this.setInventories(inventories)
+      })
+    },
+    ...mapActions(['setInventories'])
   }
   // middleware: 'authenticated'
 }

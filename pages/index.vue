@@ -60,9 +60,8 @@ export default {
     })
   },
   created () {
-    this.readMaterials().then(() => {
-      this.readInventories()
-    })
+    this.readMaterials()
+    this.readInventories()
   },
   methods: {
     ...mapActions(['setMaterials', 'setInventories']),
@@ -71,37 +70,29 @@ export default {
     },
     readMaterials () {
       const materials = []
-      return firebase
-        .database()
-        .ref('/materials/')
-        .once('value')
-        .then((snapshot) => {
-          if (snapshot.val()) {
-            Object.keys(snapshot.val()).forEach((element) => {
-              materials.push(snapshot.val()[element])
-            })
-          }
-        })
-        .then(() => {
-          this.setMaterials(materials)
-        })
+      const materialsRef = firebase.database().ref('/materials/')
+      return materialsRef.once('value').then((snapshot) => {
+        if (snapshot.val()) {
+          Object.keys(snapshot.val()).forEach((element) => {
+            materials.push(snapshot.val()[element])
+          })
+        }
+      }).then(() => {
+        this.setMaterials(materials)
+      })
     },
     readInventories () {
       const inventories = []
-      return firebase
-        .database()
-        .ref('/inventories/')
-        .once('value')
-        .then((snapshot) => {
-          if (snapshot.val()) {
-            Object.keys(snapshot.val()).forEach((element) => {
-              inventories.push(snapshot.val()[element])
-            })
-          }
-        })
-        .then(() => {
-          this.setInventories(inventories)
-        })
+      const inventoriesRef = firebase.database().ref('/inventories/')
+      return inventoriesRef.once('value').then((snapshot) => {
+        if (snapshot.val()) {
+          Object.keys(snapshot.val()).forEach((element) => {
+            inventories.push(snapshot.val()[element])
+          })
+        }
+      }).then(() => {
+        this.setInventories(inventories)
+      })
     }
   }
   // middleware: 'authenticated'
