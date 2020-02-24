@@ -1,35 +1,98 @@
 <template>
-  <v-row tag="section" class="material">
-    <v-col v-for="material in materials" :key="material.id" cols="12">
-      <v-card @click="toMaterialItem(material.id)">
-        <v-container>
-          <v-row>
-            <v-col v-text="material.controlCode" tag="span" cols="12" class="body-1 py-0 my-1" />
-            <v-col v-text="material.name" tag="h1" cols="12" class="headline font-weight-bold py-0 my-1" />
-            <v-col v-text="material.supplier" tag="span" cols="12" class="body-1 py-0 my-1" />
-          </v-row>
-        </v-container>
-      </v-card>
-    </v-col>
-  </v-row>
+  <client-only placeholder="Loading...">
+    <v-row tag="section" class="material">
+      <template v-if="!!materials.length">
+        <v-col
+          v-for="material in materials"
+          :key="material.controlCode"
+          cols="12"
+        >
+          <v-card @click="toMaterialItem(material.controlCode)">
+            <v-container>
+              <v-row>
+                <v-col
+                  v-text="material.controlCode"
+                  tag="span"
+                  cols="12"
+                  class="body-1 py-0 my-1"
+                />
+                <v-col
+                  v-text="material.name"
+                  tag="h1"
+                  cols="12"
+                  class="headline font-weight-bold py-0 my-1"
+                />
+                <v-col
+                  v-text="material.supplier"
+                  tag="span"
+                  cols="12"
+                  class="body-1 py-0 my-1"
+                />
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-col>
+      </template>
+      <template v-else>
+        <v-col
+          v-text="noMaterial"
+          cols="12"
+          tag="h1"
+          class="text-center"
+        />
+      </template>
+    </v-row>
+  </client-only>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import firebase from '@/plugins/firebase'
+import { mapActions, mapGetters } from 'vuex'
 export default {
+  data () {
+    return {
+      noMaterial: '登録された原料はありません。'
+    }
+  },
   computed: {
     ...mapGetters({
-      inventories: 'getInventories',
       materials: 'getMaterials'
     })
   },
+  created () {
+    this.readMaterials()
+    this.readInventories()
+  },
   methods: {
-    getItem (array, id) {
-      return array.find(item => item.id === id)
+    ...mapActions(['setMaterials', 'setInventories']),
+    toMaterialItem (controlCode) {
+      this.$router.push('/' + controlCode)
     },
-    toMaterialItem (path) {
-      const currentPath = this.$route.path.replace(/\/$/, '')
-      this.$router.push(`${currentPath}/${path}`)
+    readMaterials () {
+      const materials = []
+      const materialsRef = firebase.database().ref('/materials/')
+      return materialsRef.once('value').then((snapshot) => {
+        if (snapshot.val()) {
+          Object.keys(snapshot.val()).forEach((element) => {
+            materials.push(snapshot.val()[element])
+          })
+        }
+      }).then(() => {
+        this.setMaterials(materials)
+      })
+    },
+    readInventories () {
+      const inventories = []
+      const inventoriesRef = firebase.database().ref('/inventories/')
+      return inventoriesRef.once('value').then((snapshot) => {
+        if (snapshot.val()) {
+          Object.keys(snapshot.val()).forEach((element) => {
+            inventories.push(snapshot.val()[element])
+          })
+        }
+      }).then(() => {
+        this.setInventories(inventories)
+      })
     }
   }
   // middleware: 'authenticated'

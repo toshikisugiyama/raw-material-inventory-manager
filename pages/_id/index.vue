@@ -1,49 +1,56 @@
 <template>
   <v-container class="pa-0">
-    <v-row tag="section">
+    <v-row v-if="!!currentMaterial" tag="section">
       <v-col
-        v-text="getItem(materials, materialId).controlCode"
+        v-text="currentMaterial.controlCode"
         tag="span"
         cols="12"
       />
       <v-col
-        v-text="getItem(materials, materialId).name"
+        v-text="currentMaterial.name"
         tag="h1"
         cols="12"
       />
       <v-col
-        v-text="getItem(materials, materialId).supplier"
+        v-text="currentMaterial.supplier"
         tag="span"
         cols="12"
       />
     </v-row>
-    <v-row tag="section" class="material">
-      <v-col v-for="inventory in filterItem(inventories, materialId)" :key="inventory.id" cols="12">
-        <v-card @click="toInventory(inventory.id)">
-          <v-container>
-            <v-row>
-              <v-col
-                v-text="inventory.lotCode"
-                tag="h1"
-                cols="12"
-                class="headline font-weight-bold py-0 my-1"
-              />
-              <v-col
-                v-text="inventory.dead + '迄'"
-                tag="span"
-                cols="12"
-                class="body-1 py-0 my-1"
-              />
-              <v-col
-                v-text="inventory.stockAmount + getItem(materials, materialId).unit"
-                tag="h2"
-                cols="12"
-                class="headline font-weight-bold py-0 my-1 text-right"
-              />
-            </v-row>
-          </v-container>
-        </v-card>
-      </v-col>
+    <v-row tag="section" class="inventories">
+      <template v-if="!!currentInventories.length">
+        <v-col v-for="inventory in currentInventories" :key="inventory.id" cols="12">
+          <v-card @click="toInventoryEditor(inventory.lotCode)">
+            <v-container>
+              <v-row>
+                <v-col
+                  v-text="inventory.lotCode"
+                  tag="h1"
+                  cols="12"
+                  class="headline font-weight-bold py-0 my-1"
+                />
+                <v-col
+                  v-text="inventory.dead + '迄'"
+                  tag="span"
+                  cols="12"
+                  class="body-1 py-0 my-1"
+                />
+                <v-col
+                  v-text="inventory.amount + currentMaterial.unit"
+                  tag="h2"
+                  cols="12"
+                  class="headline font-weight-bold py-0 my-1 text-right"
+                />
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-col>
+      </template>
+      <template v-else>
+        <v-col
+          v-text="noInventory"
+        />
+      </template>
     </v-row>
   </v-container>
 </template>
@@ -53,24 +60,31 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      materialId: Number(this.$route.path.slice(1).replace(/\/$/, ''))
+      noInventory: '在庫はありません。'
     }
   },
   computed: {
     ...mapGetters({
       inventories: 'getInventories',
       materials: 'getMaterials'
-    })
+    }),
+    currentMaterial () {
+      const currentMaterial = this.materials.find(item => item.controlCode === this.$route.params.id)
+      return currentMaterial
+    },
+    currentInventories () {
+      const currentInventories = this.inventories.filter(item => item.materialControlCode === this.$route.params.id)
+      return currentInventories
+    }
+  },
+  created () {
+    if (!this.currentMaterial) {
+      this.$router.push('/')
+    }
   },
   methods: {
-    toInventory (path) {
-      this.$router.push(`/${path}/edit`)
-    },
-    getItem (array, id) {
-      return array.find(item => item.id === id)
-    },
-    filterItem (array, materialId) {
-      return array.filter(item => item.materialId === materialId)
+    toInventoryEditor (lotCode) {
+      this.$router.push(`/${lotCode}/edit`)
     }
   }
   // middleware: 'authenticated'
