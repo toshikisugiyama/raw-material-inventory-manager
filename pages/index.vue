@@ -28,6 +28,12 @@
                   cols="12"
                   class="body-1 py-0 my-1"
                 />
+                <v-col
+                  v-text="totalAmountWithCommma(material.controlCode) + ' ' + material.unit"
+                  tag="span"
+                  cols="12"
+                  class="headline font-weight-bold py-0 my-1 text-right"
+                />
               </v-row>
             </v-container>
           </v-card>
@@ -56,22 +62,37 @@ export default {
   },
   computed: {
     ...mapGetters({
-      materials: 'getMaterials'
-    })
+      materials: 'getMaterials',
+      inventories: 'getInventories'
+    }),
+    data () { return this.readData }
   },
   created () {
-    this.readMaterials()
     this.readInventories()
+    this.readMaterials()
   },
   methods: {
     ...mapActions(['setMaterials', 'setInventories']),
+    totalAmountWithCommma (controlCode) {
+      return this.totalAmount(controlCode).toLocaleString()
+    },
+    totalAmount (controlCode) {
+      const amounts = this.currentInventories(controlCode).map(item => Number(item.amount))
+      const reducer = (accumulator, currentValue) => accumulator + currentValue
+      return amounts.reduce(reducer)
+    },
+    currentInventories (controlCode) {
+      const result = this.inventories.filter(item => item.materialControlCode === controlCode)
+      return result
+    },
     toMaterialItem (controlCode) {
       this.$router.push('/' + controlCode)
     },
     readMaterials () {
       const materials = []
-      const materialsRef = firebase.database().ref('/materials/')
-      return materialsRef.once('value').then((snapshot) => {
+      const db = firebase.database()
+      const ref = db.ref('/materials/')
+      return ref.once('value').then((snapshot) => {
         if (snapshot.val()) {
           Object.keys(snapshot.val()).forEach((element) => {
             materials.push(snapshot.val()[element])
@@ -83,8 +104,9 @@ export default {
     },
     readInventories () {
       const inventories = []
-      const inventoriesRef = firebase.database().ref('/inventories/')
-      return inventoriesRef.once('value').then((snapshot) => {
+      const db = firebase.database()
+      const ref = db.ref('/inventories/')
+      return ref.once('value').then((snapshot) => {
         if (snapshot.val()) {
           Object.keys(snapshot.val()).forEach((element) => {
             inventories.push(snapshot.val()[element])

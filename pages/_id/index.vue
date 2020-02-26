@@ -36,7 +36,7 @@
                   class="body-1 py-0 my-1"
                 />
                 <v-col
-                  v-text="inventory.amount + currentMaterial.unit"
+                  v-text="addComma(inventory.amount) + ' ' + currentMaterial.unit"
                   tag="h2"
                   cols="12"
                   class="headline font-weight-bold py-0 my-1 text-right"
@@ -85,6 +85,10 @@ export default {
   methods: {
     toInventoryEditor (lotCode) {
       this.$router.push(`/${lotCode}/edit`)
+    },
+    addComma (num) {
+      if (typeof num === 'number') { return num.toLocaleString() }
+      return Number(num).toLocaleString()
     }
   }
   // middleware: 'authenticated'
