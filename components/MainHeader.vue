@@ -38,3 +38,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.v-toolbar {
+  &__title {
+    cursor: pointer;
+  }
+}
+</style>

@@ -69,7 +69,7 @@ export default {
       lotCode: { value: '', label: '製造ロット番号', type: 'text', col: 12 },
       amount: { value: '', label: '量', type: 'number', col: 12 },
       dead: { value: '', label: '使用期限', type: 'date', col: 12 },
-      status: '',
+      status: 0,
       inventoryComment: { value: '', label: '備考', type: 'date', col: 12 },
       createdAt: Date.now(),
       updatedAt: Date.now(),
