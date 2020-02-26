@@ -48,8 +48,15 @@
       </template>
       <template v-else>
         <v-col
-          v-text="noInventory"
+          v-text="noInventory.text"
+          cols="12"
+          class="text-center my-5 py-5"
         />
+        <v-col cols="12" class="text-center">
+          <v-btn @click="toPage(noInventory.path)">
+            {{ noInventory.button }}
+          </v-btn>
+        </v-col>
       </template>
     </v-row>
   </v-container>
@@ -60,7 +67,11 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      noInventory: '在庫はありません。'
+      noInventory: {
+        text: '在庫はありません。',
+        button: '在庫を登録する',
+        path: '/inventory'
+      }
     }
   },
   computed: {
@@ -89,6 +100,9 @@ export default {
     addComma (num) {
       if (typeof num === 'number') { return num.toLocaleString() }
       return Number(num).toLocaleString()
+    },
+    toPage (path) {
+      this.$router.push(path)
     }
   }
   // middleware: 'authenticated'
