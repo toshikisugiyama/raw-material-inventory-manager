@@ -23,8 +23,9 @@
         />
       </v-col>
       <v-col :cols="unit.col">
-        <v-text-field
+        <v-select
           v-model="unit.value"
+          :items="unit.items"
           :label="unit.label"
           :type="unit.type"
         />
@@ -56,8 +57,8 @@ export default {
     return {
       name: { value: '', label: '品名', type: 'text', col: 12 },
       supplier: { value: '', label: '製造者または仕入先', type: 'text', col: 12 },
-      controlCode: { value: '', label: '管理コード', type: 'text', col: 6 },
-      unit: { value: '', label: '単位', type: 'text', col: 6 },
+      controlCode: { value: '', label: '管理コード', type: 'text', col: 12 },
+      unit: { value: '', label: '単位', type: 'text', col: 12, items: ['mg', 'g', 'kg', 'mL', 'L', 'ケ'] },
       materialComment: { value: '', label: '備考', type: 'text', col: 12 },
       createdAt: Date.now(),
       updatedAt: Date.now()
@@ -80,7 +81,7 @@ export default {
     writeMaterialData (materials) {
       firebase.database().ref('materials/' + materials.controlCode).set(materials)
     }
-  }
-  // middleware: 'authenticated'
+  },
+  middleware: 'authenticated'
 }
 </script>

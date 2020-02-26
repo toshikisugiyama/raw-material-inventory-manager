@@ -4,17 +4,26 @@ export const state = () => ({
   pages: [
     {
       name: '原材料一覧',
-      path: '/'
+      path: '/',
+      menu: true
     },
     {
       name: '原材料受入',
-      path: '/inventory'
+      path: '/inventory',
+      menu: true
     },
     {
       name: '原材料登録',
-      path: '/material'
+      path: '/material',
+      menu: true
+    },
+    {
+      name: 'ログイン',
+      path: '/login',
+      menu: false
     }
   ],
+  materialCode: '',
   inventories: [],
   materials: []
 })
@@ -23,7 +32,8 @@ export const getters = {
   getUser: state => state.user,
   getPages: state => state.pages,
   getInventories: state => state.inventories,
-  getMaterials: state => state.materials
+  getMaterials: state => state.materials,
+  getMaterialCode: state => state.materialCode
 }
 
 export const mutations = {
@@ -38,6 +48,9 @@ export const mutations = {
   },
   setMaterials (state, payload) {
     state.materials = payload
+  },
+  setMaterialCode (state, payload) {
+    state.materialCode = payload
   }
 }
 
@@ -53,5 +66,11 @@ export const actions = {
   },
   setMaterials ({ commit }, payload) {
     commit('setMaterials', payload)
+  },
+  setMaterialCode ({ commit }, payload) {
+    commit('setMaterialCode', payload)
+  },
+  resetMaterialCode ({ commit }) {
+    commit('setMaterialCode', '')
   }
 }

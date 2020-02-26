@@ -1,25 +1,9 @@
 <template>
   <v-app dark>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
-      <v-container>
-        <v-row>
-          <v-col cols="12" class="d-flex justify-space-between align-center">
-            <v-toolbar-title v-text="title" @click="toPage('/')" />
-            <v-spacer />
-            <v-btn
-              @click.stop="rightDrawer = !rightDrawer"
-              icon
-            >
-              <v-icon>mdi-menu</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-app-bar>
+    <MainHeader
+      :title="title"
+      @toggle-drawer="toggleDrawer"
+    />
     <v-content>
       <v-container>
         <nuxt />
@@ -32,15 +16,21 @@
       fixed
     >
       <v-list>
-        <v-list-item @click.native="rightDrawer = !rightDrawer">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-arrow-right
-            </v-icon>
-          </v-list-item-action>
+        <v-list-item @click.native="toggleDrawer" link>
+          <v-icon light>
+            mdi-arrow-right
+          </v-icon>
         </v-list-item>
-        <v-list-item v-for="page in pages" :key="page.path">
-          <v-list-item-title v-text="page.name" @click="toPage(page.path)" />
+        <v-divider />
+        <v-list-item
+          v-for="page in sideMenus"
+          :key="page.path"
+          link
+        >
+          <v-list-item-title
+            v-text="page.name"
+            @click="toPage(page.path)"
+          />
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -54,14 +44,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import MainHeader from '@/components/MainHeader.vue'
 export default {
+  components: {
+    MainHeader
+  },
   data () {
     return {
-      clipped: false,
       drawer: false,
       fixed: false,
-      miniVariant: false,
       right: true,
       rightDrawer: false
     }
@@ -79,12 +71,18 @@ export default {
         return '原材料使用'
       }
       return '原材料詳細'
-    }
+    },
+    sideMenus () { return this.pages.filter(item => item.menu) }
   },
   methods: {
     toPage (path) {
+      this.resetMaterialCode()
       this.$router.push(path)
-    }
+    },
+    toggleDrawer () {
+      this.rightDrawer = !this.rightDrawer
+    },
+    ...mapActions(['resetMaterialCode'])
   }
 }
 </script>

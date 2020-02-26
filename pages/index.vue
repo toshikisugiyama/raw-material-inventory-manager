@@ -41,11 +41,15 @@
       </template>
       <template v-else>
         <v-col
-          v-text="noMaterial"
+          v-text="noMaterial.text"
           cols="12"
-          tag="h1"
-          class="text-center"
+          class="text-center my-5 py-5"
         />
+        <v-col cols="12" class="text-center">
+          <v-btn @click="toPage(noMaterial.path)">
+            {{ noMaterial.button }}
+          </v-btn>
+        </v-col>
       </template>
     </v-row>
   </client-only>
@@ -57,7 +61,11 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      noMaterial: '登録された原料はありません。'
+      noMaterial: {
+        text: '登録された原料はありません。',
+        button: '原材料を登録する',
+        path: '/material'
+      }
     }
   },
   computed: {
@@ -73,12 +81,16 @@ export default {
   },
   methods: {
     ...mapActions(['setMaterials', 'setInventories']),
+    toPage (path) {
+      this.$router.push(path)
+    },
     totalAmountWithCommma (controlCode) {
       return this.totalAmount(controlCode).toLocaleString()
     },
     totalAmount (controlCode) {
       const amounts = this.currentInventories(controlCode).map(item => Number(item.amount))
       const reducer = (accumulator, currentValue) => accumulator + currentValue
+      if (!amounts.length) { return 0 }
       return amounts.reduce(reducer)
     },
     currentInventories (controlCode) {
@@ -116,7 +128,7 @@ export default {
         this.setInventories(inventories)
       })
     }
-  }
-  // middleware: 'authenticated'
+  },
+  middleware: 'authenticated'
 }
 </script>
