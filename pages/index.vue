@@ -79,6 +79,7 @@ export default {
     totalAmount (controlCode) {
       const amounts = this.currentInventories(controlCode).map(item => Number(item.amount))
       const reducer = (accumulator, currentValue) => accumulator + currentValue
+      if (!amounts.length) { return 0 }
       return amounts.reduce(reducer)
     },
     currentInventories (controlCode) {
