@@ -81,7 +81,7 @@ export default {
     writeMaterialData (materials) {
       firebase.database().ref('materials/' + materials.controlCode).set(materials)
     }
-  }
-  // middleware: 'authenticated'
+  },
+  middleware: 'authenticated'
 }
 </script>

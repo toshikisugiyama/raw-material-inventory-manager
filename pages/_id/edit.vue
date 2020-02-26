@@ -119,7 +119,7 @@ export default {
       })
     },
     ...mapActions(['setInventories'])
-  }
-  // middleware: 'authenticated'
+  },
+  middleware: 'authenticated'
 }
 </script>

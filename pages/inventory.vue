@@ -120,7 +120,7 @@ export default {
       firebase.database().ref('inventories/' + inventories.lotCode).set(inventories)
     },
     ...mapActions(['addInventories'])
-  }
-  // middleware: 'authenticated'
+  },
+  middleware: 'authenticated'
 }
 </script>

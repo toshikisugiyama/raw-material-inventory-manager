@@ -106,7 +106,7 @@ export default {
       this.$router.push(path)
     },
     ...mapActions(['setMaterialCode'])
-  }
-  // middleware: 'authenticated'
+  },
+  middleware: 'authenticated'
 }
 </script>

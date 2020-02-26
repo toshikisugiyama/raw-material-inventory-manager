@@ -128,7 +128,7 @@ export default {
         this.setInventories(inventories)
       })
     }
-  }
-  // middleware: 'authenticated'
+  },
+  middleware: 'authenticated'
 }
 </script>
