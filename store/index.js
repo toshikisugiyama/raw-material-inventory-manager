@@ -23,6 +23,7 @@ export const state = () => ({
       menu: false
     }
   ],
+  materialCode: '',
   inventories: [],
   materials: []
 })
@@ -31,7 +32,8 @@ export const getters = {
   getUser: state => state.user,
   getPages: state => state.pages,
   getInventories: state => state.inventories,
-  getMaterials: state => state.materials
+  getMaterials: state => state.materials,
+  getMaterialCode: state => state.materialCode
 }
 
 export const mutations = {
@@ -46,6 +48,9 @@ export const mutations = {
   },
   setMaterials (state, payload) {
     state.materials = payload
+  },
+  setMaterialCode (state, payload) {
+    state.materialCode = payload
   }
 }
 
@@ -61,5 +66,11 @@ export const actions = {
   },
   setMaterials ({ commit }, payload) {
     commit('setMaterials', payload)
+  },
+  setMaterialCode ({ commit }, payload) {
+    commit('setMaterialCode', payload)
+  },
+  resetMaterialCode ({ commit }) {
+    commit('setMaterialCode', '')
   }
 }

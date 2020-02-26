@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import MainHeader from '@/components/MainHeader.vue'
 export default {
   components: {
@@ -76,12 +76,13 @@ export default {
   },
   methods: {
     toPage (path) {
+      this.resetMaterialCode()
       this.$router.push(path)
     },
-
     toggleDrawer () {
       this.rightDrawer = !this.rightDrawer
-    }
+    },
+    ...mapActions(['resetMaterialCode'])
   }
 }
 </script>

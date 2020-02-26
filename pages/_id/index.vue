@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -102,8 +102,10 @@ export default {
       return Number(num).toLocaleString()
     },
     toPage (path) {
+      this.setMaterialCode(this.$route.params.id)
       this.$router.push(path)
-    }
+    },
+    ...mapActions(['setMaterialCode'])
   }
   // middleware: 'authenticated'
 }

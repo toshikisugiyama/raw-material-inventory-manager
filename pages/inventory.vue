@@ -6,7 +6,7 @@
           v-model="materialControlCode.value"
           :label="materialControlCode.label"
           :type="materialControlCode.type"
-          autofocus
+          :autofocus="!materialCode"
         />
       </v-col>
       <v-col :cols="name.col">
@@ -21,6 +21,7 @@
           v-model="lotCode.value"
           :label="lotCode.label"
           :type="lotCode.type"
+          :autofocus="!!materialCode"
         />
       </v-col>
       <v-col :cols="amount.col">
@@ -65,8 +66,8 @@ export default {
   data () {
     return {
       materialControlCode: { value: '', label: '原材料管理コード', type: 'text', col: 12 },
-      lotCode: { value: '', label: '製造ロット番号', type: 'text', col: 6 },
-      amount: { value: '', label: '量', type: 'number', col: 6 },
+      lotCode: { value: '', label: '製造ロット番号', type: 'text', col: 12 },
+      amount: { value: '', label: '量', type: 'number', col: 12 },
       dead: { value: '', label: '使用期限', type: 'date', col: 12 },
       status: '',
       inventoryComment: { value: '', label: '備考', type: 'date', col: 12 },
@@ -77,7 +78,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      materials: 'getMaterials'
+      materials: 'getMaterials',
+      materialCode: 'getMaterialCode'
     }),
     currentMaterial () {
       const currentMaterial = this.materials.find(item => item.controlCode === this.materialControlCode.value)
@@ -90,6 +92,9 @@ export default {
     if (!this.materials.length) {
       alert('受入入力の前に原材料の登録を行って下さい。')
       this.$router.push('/material')
+    }
+    if (this.materialCode) {
+      this.materialControlCode.value = this.materialCode
     }
   },
   methods: {
@@ -107,6 +112,9 @@ export default {
       this.addInventories(inventories)
       this.writeInventoryData(inventories)
       this.$router.push('/' + inventories.materialControlCode)
+      if (this.materialCode) {
+        this.materialControlCode.value = ''
+      }
     },
     writeInventoryData (inventories) {
       firebase.database().ref('inventories/' + inventories.lotCode).set(inventories)
