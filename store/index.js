@@ -4,19 +4,23 @@ export const state = () => ({
   pages: [
     {
       name: '原材料一覧',
-      path: '/'
+      path: '/',
+      menu: true
     },
     {
       name: '原材料受入',
-      path: '/inventory'
+      path: '/inventory',
+      menu: true
     },
     {
       name: '原材料登録',
-      path: '/material'
+      path: '/material',
+      menu: true
     },
     {
       name: 'ログイン',
-      path: '/login'
+      path: '/login',
+      menu: false
     }
   ],
   inventories: [],
