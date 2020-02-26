@@ -13,6 +13,10 @@ export const state = () => ({
     {
       name: '原材料登録',
       path: '/material'
+    },
+    {
+      name: 'ログイン',
+      path: '/login'
     }
   ],
   inventories: [],
