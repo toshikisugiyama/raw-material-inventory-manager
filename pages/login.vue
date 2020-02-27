@@ -1,7 +1,7 @@
 <template>
   <v-row tag="section" class="login">
-    <v-col v-text="this.$route.name.toUpperCase()" tag="h1" cols="12" class="text-center" />
-    <v-col cols="12" md="4" offset-md="4">
+    <v-col v-text="title.toUpperCase()" tag="h1" cols="12" class="text-center" />
+    <v-col v-if="loginPage" cols="12" md="4" offset-md="4">
       <v-form>
         <v-text-field
           v-model="email"
@@ -16,13 +16,72 @@
           label="Password"
           required
         />
-        <v-btn
-          @click="login"
-          color="success"
-          class="mr-4"
-        >
-          login
-        </v-btn>
+        <v-row>
+          <v-col>
+            <v-btn
+              @click="login"
+              color="success"
+              class="mr-4"
+            >
+              {{ title }}
+            </v-btn>
+          </v-col>
+          <v-spacer />
+          <v-col>
+            <v-btn @click="switchPage" text dark>
+              {{ switchButton }}
+              <v-icon dark right>
+                mdi-arrow-right
+              </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-col>
+    <v-col v-else cols="12" md="4" offset-md="4">
+      <v-form>
+        <v-text-field
+          v-model="email"
+          label="E-mail"
+          required
+        />
+        <v-text-field
+          v-model="password"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="show ? 'text' : 'password'"
+          @click:append="show = !show"
+          label="Password"
+          required
+        />
+        <v-text-field
+          v-model="passwordConfirm"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="show ? 'text' : 'password'"
+          @click:append="show = !show"
+          label="Password(confirm)"
+          required
+        />
+        <v-row>
+          <v-col>
+            <v-btn
+              @click="login"
+              color="success"
+              class="mr-4"
+            >
+              {{ title }}
+            </v-btn>
+          </v-col>
+          <v-spacer />
+          <v-col>
+            <v-btn @click="switchPage" text dark>
+              {{ switchButton }}
+              <v-icon dark right>
+                mdi-arrow-right
+              </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+        {{ signUpError }}
       </v-form>
     </v-col>
   </v-row>
@@ -36,12 +95,17 @@ export default {
     return {
       email: '',
       password: '',
-      show: false
+      passwordConfirm: '',
+      show: false,
+      loginPage: true,
+      signUpError: ''
     }
   },
   computed: {
     ...mapState(['user']),
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser']),
+    title () { return this.loginPage ? 'login' : 'signup' },
+    switchButton () { return !this.loginPage ? 'login' : 'signup' }
   },
   mounted () {
     firebase.auth().onAuthStateChanged((user) => {
@@ -50,6 +114,12 @@ export default {
   },
   methods: {
     ...mapActions(['setUser']),
+    switchPage () {
+      this.loginPage = !this.loginPage
+    },
+    createUser () {
+
+    },
     login () {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password).then((user) => {
         this.$router.push('/')
