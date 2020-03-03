@@ -1,65 +1,22 @@
-<template>
-  <v-container class="pa-0">
-    <v-row v-if="!!currentMaterial" tag="section">
-      <v-col
-        v-text="currentMaterial.controlCode"
-        tag="span"
-        cols="12"
-      />
-      <v-col
-        v-text="currentMaterial.name"
-        tag="h1"
-        cols="12"
-      />
-      <v-col
-        v-text="currentMaterial.supplier"
-        tag="span"
-        cols="12"
-      />
-    </v-row>
-    <v-row tag="section" class="inventories">
-      <template v-if="!!currentInventories.length">
-        <v-col v-for="inventory in currentInventories" :key="inventory.id" cols="12">
-          <v-card @click="toInventoryEditor(inventory.lotCode)">
-            <v-container>
-              <v-row>
-                <v-col
-                  v-text="inventory.lotCode"
-                  tag="h1"
-                  cols="12"
-                  class="headline font-weight-bold py-0 my-1"
-                />
-                <v-col
-                  v-text="inventory.dead + '迄'"
-                  tag="span"
-                  cols="12"
-                  class="body-1 py-0 my-1"
-                />
-                <v-col
-                  v-text="addComma(inventory.amount) + ' ' + currentMaterial.unit"
-                  tag="h2"
-                  cols="12"
-                  class="headline font-weight-bold py-0 my-1 text-right"
-                />
-              </v-row>
-            </v-container>
-          </v-card>
-        </v-col>
-      </template>
-      <template v-else>
-        <v-col
-          v-text="noInventory.text"
-          cols="12"
-          class="text-center my-5 py-5"
-        />
-        <v-col cols="12" class="text-center">
-          <v-btn @click="toPage(noInventory.path)">
-            {{ noInventory.button }}
-          </v-btn>
-        </v-col>
-      </template>
-    </v-row>
-  </v-container>
+<template lang="pug">
+  v-container.pa-0
+    v-row(v-if="!!currentMaterial" tag="section")
+      v-col(v-text="currentMaterial.controlCode" tag="span" cols="12")
+      v-col(v-text="currentMaterial.name" tag="h1" cols="12")
+      v-col(v-text="currentMaterial.supplier" tag="span" cols="12")
+    v-row.inventories(tag="section")
+      template(v-if="!!currentInventories.length")
+        v-col(v-for="inventory in currentInventories" :key="inventory.id" cols="12")
+          v-card(@click="toInventoryEditor(inventory.lotCode)")
+            v-container
+              v-row
+                v-col.headline.font-weight-bold.py-0.my-1(v-text="inventory.lotCode" tag="h1" cols="12")
+                v-col.body-1.py-0.my-1(v-text="inventory.dead + '迄'" tag="span" cols="12")
+                v-col.headline.font-weight-bold.py-0.my-1.text-right(v-text="addComma(inventory.amount) + ' ' + currentMaterial.unit" tag="h2" cols="12")
+      template(v-else)
+        v-col.text-center.my-5.py-5(v-text="noInventory.text" cols="12")
+        v-col.text-center(cols="12")
+          v-btn(@click="toPage(noInventory.path)") {{ noInventory.button }}
 </template>
 
 <script>

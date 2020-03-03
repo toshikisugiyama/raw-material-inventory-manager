@@ -1,53 +1,18 @@
-<template>
-  <v-form>
-    <v-row>
-      <v-col :cols="name.col">
-        <v-text-field
-          v-model="name.value"
-          :label="name.label"
-          :type="name.type"
-        />
-      </v-col>
-      <v-col :cols="supplier.col">
-        <v-text-field
-          v-model="supplier.value"
-          :label="supplier.label"
-          :type="supplier.type"
-        />
-      </v-col>
-      <v-col :cols="controlCode.col">
-        <v-text-field
-          v-model="controlCode.value"
-          :label="controlCode.label"
-          :type="controlCode.type"
-        />
-      </v-col>
-      <v-col :cols="unit.col">
-        <v-select
-          v-model="unit.value"
-          :items="unit.items"
-          :label="unit.label"
-          :type="unit.type"
-        />
-      </v-col>
-      <v-col :cols="materialComment.col">
-        <v-textarea
-          v-model="materialComment.value"
-          :label="materialComment.label"
-          :type="materialComment.type"
-        />
-      </v-col>
-      <v-col>
-        <v-btn
-          @click="registerMaterial"
-          depressed
-          large
-        >
-          決定
-        </v-btn>
-      </v-col>
-    </v-row>
-  </v-form>
+<template lang="pug">
+  v-form
+    v-row
+      v-col(:cols="name.col")
+        v-text-field(v-model="name.value" :label="name.label" :type="name.type")
+      v-col(:cols="supplier.col")
+        v-text-field(v-model="supplier.value" :label="supplier.label" :type="supplier.type")
+      v-col(:cols="controlCode.col")
+        v-text-field(v-model="controlCode.value" :label="controlCode.label" :type="controlCode.type")
+      v-col(:cols="unit.col")
+        v-select(v-model="unit.value" :items="unit.items" :label="unit.label" :type="unit.type")
+      v-col(:cols="materialComment.col")
+        v-textarea(v-model="materialComment.value" :label="materialComment.label" :type="materialComment.type")
+      v-col
+        v-btn(@click="registerMaterial" depressed large) 決定
 </template>
 
 <script>

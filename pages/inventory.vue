@@ -1,62 +1,20 @@
-<template>
-  <v-form>
-    <v-row>
-      <v-col :cols="materialControlCode.col">
-        <v-text-field
-          v-model="materialControlCode.value"
-          :label="materialControlCode.label"
-          :type="materialControlCode.type"
-          :autofocus="!materialCode"
-        />
-      </v-col>
-      <v-col :cols="name.col">
-        <v-text-field
-          :value="materialName"
-          :label="name.label"
-          readonly
-        />
-      </v-col>
-      <v-col :cols="lotCode.col">
-        <v-text-field
-          v-model="lotCode.value"
-          :label="lotCode.label"
-          :type="lotCode.type"
-          :autofocus="!!materialCode"
-        />
-      </v-col>
-      <v-col :cols="amount.col">
-        <v-text-field
-          v-model="amount.value"
-          :label="amount.label"
-          :type="amount.type"
-          :append-outer-icon="materialUnit"
-        />
-      </v-col>
-      <v-col :cols="dead.col">
-        <v-text-field
-          v-model="dead.value"
-          :label="dead.label"
-          :type="dead.type"
-        />
-      </v-col>
-      <v-col :cols="inventoryComment.col">
-        <v-textarea
-          v-model="inventoryComment.value"
-          :label="inventoryComment.label"
-          :type="inventoryComment.type"
-        />
-      </v-col>
-      <v-col>
-        <v-btn
-          @click="registerInventory"
-          depressed
-          large
-        >
-          決定
-        </v-btn>
-      </v-col>
-    </v-row>
-  </v-form>
+<template lang="pug">
+  v-form
+    v-row
+      v-col(:cols="materialControlCode.col")
+        v-text-field(v-model="materialControlCode.value" :label="materialControlCode.label" :type="materialControlCode.type" :autofocus="!materialCode")
+      v-col(:cols="name.col")
+        v-text-field(:value="materialName" :label="name.label" readonly)
+      v-col(:cols="lotCode.col")
+        v-text-field(v-model="lotCode.value" :label="lotCode.label" :type="lotCode.type" :autofocus="!!materialCode")
+      v-col(:cols="amount.col")
+        v-text-field(v-model="amount.value" :label="amount.label" :type="amount.type" :append-outer-icon="materialUnit")
+      v-col(:cols="dead.col")
+        v-text-field(v-model="dead.value" :label="dead.label" :type="dead.type")
+      v-col(:cols="inventoryComment.col")
+        v-textarea(v-model="inventoryComment.value" :label="inventoryComment.label" :type="inventoryComment.type")
+      v-col
+        v-btn(@click="registerInventory" depressed large) 決定
 </template>
 
 <script>
